@@ -1,0 +1,1958 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nomor Harian</title>
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0f172a;
+            color: #e5e7eb;
+            min-height: 100vh;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        header {
+            background: linear-gradient(
+                135deg,
+                #111827,
+                #1e293b
+            );
+
+            border-bottom: 1px solid #334155;
+            padding: 25px 20px;
+        }
+
+        .header-content {
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            margin-top: 7px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .date-header {
+            margin-top: 15px;
+            display: inline-block;
+            background: #1e293b;
+            border: 1px solid #475569;
+            padding: 8px 13px;
+            border-radius: 8px;
+            color: #cbd5e1;
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           CONTAINER
+        ===================================================== */
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+            padding: 25px 20px 60px;
+        }
+
+
+        /* =====================================================
+           DASHBOARD
+        ===================================================== */
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .dashboard-card {
+            background: #111827;
+            border: 1px solid #334155;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .dashboard-label {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .dashboard-value {
+            margin-top: 8px;
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+
+        /* =====================================================
+           CARD
+        ===================================================== */
+
+        .card {
+            background: #111827;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 25px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .card-description {
+            color: #94a3b8;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+
+        /* =====================================================
+           FORM
+        ===================================================== */
+
+        .name-box {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #cbd5e1;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        input {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid #475569;
+            color: white;
+            outline: none;
+            padding: 13px 14px;
+            border-radius: 9px;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #3b82f6;
+        }
+
+        .number-title {
+            margin-bottom: 10px;
+        }
+
+        .number-input-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+
+        .number-input-box {
+            position: relative;
+        }
+
+        .number-label {
+            font-size: 11px;
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+
+        .submit-container {
+            margin-top: 18px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-submit {
+            background: #2563eb;
+            border: none;
+            color: white;
+            padding: 13px 22px;
+            border-radius: 9px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           EVALUATION
+        ===================================================== */
+
+        .evaluation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .evaluation-box {
+            padding: 18px;
+            border-radius: 13px;
+        }
+
+        .evaluation-box.green {
+            background: rgba(22, 163, 74, 0.12);
+            border: 1px solid #166534;
+        }
+
+        .evaluation-box.yellow {
+            background: rgba(234, 179, 8, 0.12);
+            border: 1px solid #854d0e;
+        }
+
+        .evaluation-title {
+            font-size: 17px;
+            font-weight: 800;
+            margin-bottom: 13px;
+        }
+
+        .result-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .result-item {
+            background: #334155;
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .result-item.green {
+            background: #166534;
+            color: #dcfce7;
+        }
+
+        .result-item.yellow {
+            background: #854d0e;
+            color: #fef9c3;
+        }
+
+
+        /* =====================================================
+           GROUP NOMOR
+        ===================================================== */
+
+        .person-card {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 15px;
+        }
+
+        .person-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .person-name {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .person-date {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .numbers-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+
+
+        /* =====================================================
+           NOMOR INDIVIDUAL
+        ===================================================== */
+
+        .number-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 11px;
+            padding: 13px;
+            transition: 0.2s;
+        }
+
+        .number-card.status-out {
+            background: rgba(22, 163, 74, 0.20);
+            border-color: #16a34a;
+        }
+
+        .number-card.status-close {
+            background: rgba(234, 179, 8, 0.16);
+            border-color: #eab308;
+        }
+
+        .number-card.status-no {
+            background: rgba(220, 38, 38, 0.14);
+            border-color: #dc2626;
+        }
+
+        .number-position {
+            color: #64748b;
+            font-size: 10px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .number-value {
+            font-size: 21px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .number-status {
+            font-size: 11px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .status-pending-text {
+            color: #94a3b8;
+        }
+
+        .status-out-text {
+            color: #4ade80;
+        }
+
+        .status-close-text {
+            color: #facc15;
+        }
+
+        .status-no-text {
+            color: #f87171;
+        }
+
+
+        /* =====================================================
+           BUTTON STATUS
+        ===================================================== */
+
+        .status-buttons {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 5px;
+        }
+
+        .status-btn {
+            border: none;
+            border-radius: 6px;
+            padding: 7px 5px;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: 800;
+            transition: 0.15s;
+        }
+
+        .status-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-out {
+            background: #16a34a;
+            color: white;
+        }
+
+        .btn-close {
+            background: #eab308;
+            color: #111827;
+        }
+
+        .btn-no {
+            background: #dc2626;
+            color: white;
+        }
+
+
+        /* =====================================================
+           DELETE
+        ===================================================== */
+
+        .delete-person {
+            border: none;
+            background: #334155;
+            color: #cbd5e1;
+            padding: 7px 10px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .delete-person:hover {
+            background: #475569;
+        }
+
+
+        /* =====================================================
+           EMPTY
+        ===================================================== */
+
+        .empty {
+            text-align: center;
+            color: #64748b;
+            padding: 30px 15px;
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           HISTORY
+        ===================================================== */
+
+        .history-item {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .history-header {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .history-header:hover {
+            background: #1e293b;
+        }
+
+        .history-date {
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .history-arrow {
+            color: #64748b;
+        }
+
+        .history-content {
+            display: none;
+            padding: 15px;
+            border-top: 1px solid #334155;
+        }
+
+        .history-content.active {
+            display: block;
+        }
+
+        .history-person {
+            padding: 12px;
+            background: #111827;
+            border-radius: 9px;
+            margin-bottom: 8px;
+        }
+
+        .history-person-name {
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .history-numbers {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .history-number {
+            padding: 6px 9px;
+            border-radius: 6px;
+            background: #334155;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .history-number.out {
+            background: #166534;
+            color: #dcfce7;
+        }
+
+        .history-number.close {
+            background: #854d0e;
+            color: #fef9c3;
+        }
+
+        .history-number.no {
+            background: #7f1d1d;
+            color: #fee2e2;
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 768px) {
+
+            header {
+                padding: 20px 15px;
+            }
+
+            .logo {
+                font-size: 23px;
+            }
+
+            .container {
+                padding: 18px 12px 45px;
+            }
+
+            .dashboard {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .dashboard-card:last-child {
+                grid-column: 1 / -1;
+            }
+
+            .card {
+                padding: 17px;
+                border-radius: 13px;
+            }
+
+            .number-input-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .number-input-box:last-child {
+                grid-column: 1 / -1;
+            }
+
+            .submit-container {
+                display: block;
+            }
+
+            .btn-submit {
+                width: 100%;
+            }
+
+            .evaluation-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .numbers-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .person-header {
+                align-items: flex-start;
+            }
+
+            .delete-person {
+                flex-shrink: 0;
+            }
+
+        }
+
+
+        /* =====================================================
+           SMALL MOBILE
+        ===================================================== */
+
+        @media (max-width: 450px) {
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-card:last-child {
+                grid-column: auto;
+            }
+
+            .number-input-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .number-input-box:last-child {
+                grid-column: auto;
+            }
+
+            .numbers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .number-value {
+                font-size: 24px;
+            }
+
+            .person-header {
+                flex-direction: column;
+            }
+
+            .delete-person {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header>
+
+    <div class="header-content">
+
+        <div class="logo">
+            📊 Nomor Harian
+        </div>
+
+        <div class="subtitle">
+            Pencatatan dan evaluasi nomor harian
+        </div>
+
+        <div class="date-header" id="tanggalHeader">
+            -
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+
+    <!-- =====================================================
+         DASHBOARD
+    ====================================================== -->
+
+    <section class="dashboard">
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-label">
+                Total Nama Hari Ini
+            </div>
+
+            <div
+                class="dashboard-value"
+                id="totalNama"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-label">
+                Total Nomor Hari Ini
+            </div>
+
+            <div
+                class="dashboard-value"
+                id="totalNomor"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-label">
+                Nomor Keluar
+            </div>
+
+            <div
+                class="dashboard-value"
+                id="totalKeluar"
+            >
+                0
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FORM
+    ====================================================== -->
+
+    <section class="card">
+
+        <div class="card-title">
+            ➕ Kirim Nomor
+        </div>
+
+        <div class="card-description">
+            Masukkan nama kemudian isi nomor yang ingin dicatat.
+            Setiap nama dapat mengirim maksimal 5 nomor.
+        </div>
+
+
+        <form id="formNomor">
+
+
+            <div class="name-box">
+
+                <label for="nama">
+                    Nama
+                </label>
+
+                <input
+                    type="text"
+                    id="nama"
+                    placeholder="Masukkan nama"
+                    autocomplete="off"
+                    required
+                >
+
+            </div>
+
+
+            <div class="number-title">
+
+                <label>
+                    Nomor
+                </label>
+
+            </div>
+
+
+            <div class="number-input-grid">
+
+
+                <div class="number-input-box">
+
+                    <div class="number-label">
+                        NOMOR 1
+                    </div>
+
+                    <input
+                        type="text"
+                        id="nomor1"
+                        placeholder="Contoh: 9425"
+                        inputmode="numeric"
+                        maxlength="4"
+                    >
+
+                </div>
+
+
+                <div class="number-input-box">
+
+                    <div class="number-label">
+                        NOMOR 2
+                    </div>
+
+                    <input
+                        type="text"
+                        id="nomor2"
+                        placeholder="Contoh: 6332"
+                        inputmode="numeric"
+                        maxlength="4"
+                    >
+
+                </div>
+
+
+                <div class="number-input-box">
+
+                    <div class="number-label">
+                        NOMOR 3
+                    </div>
+
+                    <input
+                        type="text"
+                        id="nomor3"
+                        placeholder="Contoh: 2706"
+                        inputmode="numeric"
+                        maxlength="4"
+                    >
+
+                </div>
+
+
+                <div class="number-input-box">
+
+                    <div class="number-label">
+                        NOMOR 4
+                    </div>
+
+                    <input
+                        type="text"
+                        id="nomor4"
+                        placeholder="Contoh: 3223"
+                        inputmode="numeric"
+                        maxlength="4"
+                    >
+
+                </div>
+
+
+                <div class="number-input-box">
+
+                    <div class="number-label">
+                        NOMOR 5
+                    </div>
+
+                    <input
+                        type="text"
+                        id="nomor5"
+                        placeholder="Contoh: 0518"
+                        inputmode="numeric"
+                        maxlength="4"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="submit-container">
+
+                <button
+                    type="submit"
+                    class="btn-submit"
+                >
+                    + KIRIM NOMOR
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         EVALUASI
+    ====================================================== -->
+
+    <section class="card">
+
+        <div class="card-title">
+            📌 Evaluasi Hari Ini
+        </div>
+
+        <div class="card-description">
+            Hasil nomor yang ditandai akan muncul di sini sebagai
+            referensi untuk evaluasi berikutnya.
+        </div>
+
+
+        <div class="evaluation-grid">
+
+
+            <div class="evaluation-box green">
+
+                <div class="evaluation-title">
+                    🟩 Nomor Keluar
+                </div>
+
+                <div
+                    class="result-list"
+                    id="listKeluar"
+                >
+
+                    <span class="result-item">
+                        Belum ada
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="evaluation-box yellow">
+
+                <div class="evaluation-title">
+                    🟨 Nomor Mendekati
+                </div>
+
+                <div
+                    class="result-list"
+                    id="listDekat"
+                >
+
+                    <span class="result-item">
+                        Belum ada
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         NOMOR HARI INI
+    ====================================================== -->
+
+    <section class="card">
+
+        <div class="card-title">
+            📋 Nomor Hari Ini
+        </div>
+
+        <div class="card-description">
+            Setiap nama memiliki nomor masing-masing.
+            Status setiap nomor dapat diubah secara terpisah.
+        </div>
+
+
+        <div id="dataHariIni">
+
+            <div class="empty">
+                Belum ada nomor yang dikirim hari ini.
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         RIWAYAT
+    ====================================================== -->
+
+    <section class="card">
+
+        <div class="card-title">
+            🗂️ Riwayat
+        </div>
+
+        <div class="card-description">
+            Riwayat nomor dari hari-hari sebelumnya tetap tersimpan
+            di browser ini.
+        </div>
+
+
+        <div id="riwayat">
+
+            <div class="empty">
+                Belum ada riwayat.
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<script>
+
+    /* =========================================================
+       DATA
+    ========================================================= */
+
+    let dataNomor =
+        JSON.parse(
+            localStorage.getItem("nomorHarianData")
+        ) || [];
+
+
+    /* =========================================================
+       TANGGAL
+    ========================================================= */
+
+    function getDateKey() {
+
+        const now = new Date();
+
+        const year =
+            now.getFullYear();
+
+        const month =
+            String(now.getMonth() + 1)
+                .padStart(2, "0");
+
+        const day =
+            String(now.getDate())
+                .padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+
+    }
+
+
+    function formatTanggal(date = new Date()) {
+
+        return date.toLocaleDateString(
+            "id-ID",
+            {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    const tanggalHariIni =
+        getDateKey();
+
+
+    document.getElementById(
+        "tanggalHeader"
+    ).textContent =
+        formatTanggal();
+
+
+
+    /* =========================================================
+       SIMPAN
+    ========================================================= */
+
+    function simpanData() {
+
+        localStorage.setItem(
+            "nomorHarianData",
+            JSON.stringify(dataNomor)
+        );
+
+    }
+
+
+
+    /* =========================================================
+       FORM SUBMIT
+    ========================================================= */
+
+    document
+        .getElementById("formNomor")
+        .addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+
+                const nama =
+                    document
+                        .getElementById("nama")
+                        .value
+                        .trim();
+
+
+                if (!nama) {
+
+                    alert(
+                        "Silakan masukkan nama terlebih dahulu."
+                    );
+
+                    return;
+
+                }
+
+
+                const nomorArray = [];
+
+
+                for (
+                    let i = 1;
+                    i <= 5;
+                    i++
+                ) {
+
+                    const input =
+                        document
+                            .getElementById(
+                                `nomor${i}`
+                            );
+
+                    const value =
+                        input.value.trim();
+
+
+                    if (value !== "") {
+
+                        nomorArray.push({
+
+                            angka: value,
+
+                            status: "pending"
+
+                        });
+
+                    }
+
+                }
+
+
+                if (nomorArray.length === 0) {
+
+                    alert(
+                        "Masukkan minimal 1 nomor."
+                    );
+
+                    return;
+
+                }
+
+
+                dataNomor.push({
+
+                    id: Date.now(),
+
+                    nama: nama,
+
+                    tanggal: tanggalHariIni,
+
+                    tanggalText: formatTanggal(),
+
+                    nomor: nomorArray
+
+                });
+
+
+                simpanData();
+
+
+                document
+                    .getElementById("formNomor")
+                    .reset();
+
+
+                render();
+
+            }
+        );
+
+
+
+    /* =========================================================
+       DATA HARI INI
+    ========================================================= */
+
+    function getDataHariIni() {
+
+        return dataNomor.filter(
+            item =>
+                item.tanggal === tanggalHariIni
+        );
+
+    }
+
+
+
+    /* =========================================================
+       UBAH STATUS NOMOR
+    ========================================================= */
+
+    function ubahStatus(
+        personId,
+        nomorIndex,
+        status
+    ) {
+
+        const person =
+            dataNomor.find(
+                item =>
+                    item.id === personId
+            );
+
+
+        if (!person) {
+            return;
+        }
+
+
+        if (!person.nomor[nomorIndex]) {
+            return;
+        }
+
+
+        person.nomor[nomorIndex].status =
+            status;
+
+
+        simpanData();
+
+        render();
+
+    }
+
+
+
+    /* =========================================================
+       HAPUS NAMA
+    ========================================================= */
+
+    function hapusData(personId) {
+
+        const konfirmasi =
+            confirm(
+                "Hapus seluruh nomor dari nama ini?"
+            );
+
+
+        if (!konfirmasi) {
+            return;
+        }
+
+
+        dataNomor =
+            dataNomor.filter(
+                item =>
+                    item.id !== personId
+            );
+
+
+        simpanData();
+
+        render();
+
+    }
+
+
+
+    /* =========================================================
+       STATUS TEXT
+    ========================================================= */
+
+    function getStatusText(status) {
+
+        if (status === "out") {
+
+            return `
+                <div class="number-status status-out-text">
+                    🟩 NOMOR KELUAR
+                </div>
+            `;
+
+        }
+
+
+        if (status === "close") {
+
+            return `
+                <div class="number-status status-close-text">
+                    🟨 MENDEKATI
+                </div>
+            `;
+
+        }
+
+
+        if (status === "no") {
+
+            return `
+                <div class="number-status status-no-text">
+                    🟥 TIDAK
+                </div>
+            `;
+
+        }
+
+
+        return `
+            <div class="number-status status-pending-text">
+                ⬜ BELUM DIEVALUASI
+            </div>
+        `;
+
+    }
+
+
+
+    /* =========================================================
+       RENDER NOMOR HARI INI
+    ========================================================= */
+
+    function renderDataHariIni() {
+
+        const container =
+            document.getElementById(
+                "dataHariIni"
+            );
+
+
+        const data =
+            getDataHariIni();
+
+
+        if (data.length === 0) {
+
+            container.innerHTML = `
+                <div class="empty">
+                    Belum ada nomor yang dikirim hari ini.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            data.map(person => {
+
+                return `
+
+                    <div class="person-card">
+
+                        <div class="person-header">
+
+                            <div>
+
+                                <div class="person-name">
+                                    👤 ${escapeHTML(person.nama)}
+                                </div>
+
+                                <div class="person-date">
+                                    ${person.tanggalText}
+                                </div>
+
+                            </div>
+
+
+                            <button
+                                class="delete-person"
+                                onclick="hapusData(${person.id})"
+                            >
+                                HAPUS DATA
+                            </button>
+
+                        </div>
+
+
+                        <div class="numbers-grid">
+
+                            ${person.nomor
+                                .map(
+                                    (nomor, index) =>
+                                        renderNomor(
+                                            person,
+                                            nomor,
+                                            index
+                                        )
+                                )
+                                .join("")
+                            }
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            })
+            .join("");
+
+    }
+
+
+
+    /* =========================================================
+       RENDER SATU NOMOR
+    ========================================================= */
+
+    function renderNomor(
+        person,
+        nomor,
+        index
+    ) {
+
+        let statusClass = "";
+
+
+        if (nomor.status === "out") {
+            statusClass = "status-out";
+        }
+
+        if (nomor.status === "close") {
+            statusClass = "status-close";
+        }
+
+        if (nomor.status === "no") {
+            statusClass = "status-no";
+        }
+
+
+        return `
+
+            <div class="number-card ${statusClass}">
+
+                <div class="number-position">
+                    NOMOR ${index + 1}
+                </div>
+
+
+                <div class="number-value">
+                    ${escapeHTML(nomor.angka)}
+                </div>
+
+
+                ${getStatusText(nomor.status)}
+
+
+                <div class="status-buttons">
+
+                    <button
+                        class="status-btn btn-out"
+                        onclick="
+                            ubahStatus(
+                                ${person.id},
+                                ${index},
+                                'out'
+                            )
+                        "
+                    >
+                        🟩 KELUAR
+                    </button>
+
+
+                    <button
+                        class="status-btn btn-close"
+                        onclick="
+                            ubahStatus(
+                                ${person.id},
+                                ${index},
+                                'close'
+                            )
+                        "
+                    >
+                        🟨 DEKAT
+                    </button>
+
+
+                    <button
+                        class="status-btn btn-no"
+                        onclick="
+                            ubahStatus(
+                                ${person.id},
+                                ${index},
+                                'no'
+                            )
+                        "
+                    >
+                        🟥 TIDAK
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+
+    /* =========================================================
+       EVALUASI
+    ========================================================= */
+
+    function renderEvaluasi() {
+
+        const data =
+            getDataHariIni();
+
+
+        const keluar = [];
+
+
+        const dekat = [];
+
+
+        data.forEach(person => {
+
+            person.nomor.forEach(nomor => {
+
+                if (nomor.status === "out") {
+
+                    keluar.push({
+
+                        nama: person.nama,
+
+                        angka: nomor.angka
+
+                    });
+
+                }
+
+
+                if (nomor.status === "close") {
+
+                    dekat.push({
+
+                        nama: person.nama,
+
+                        angka: nomor.angka
+
+                    });
+
+                }
+
+            });
+
+        });
+
+
+        const listKeluar =
+            document.getElementById(
+                "listKeluar"
+            );
+
+
+        const listDekat =
+            document.getElementById(
+                "listDekat"
+            );
+
+
+        if (keluar.length === 0) {
+
+            listKeluar.innerHTML = `
+                <span class="result-item">
+                    Belum ada
+                </span>
+            `;
+
+        } else {
+
+            listKeluar.innerHTML =
+                keluar
+                    .map(
+                        item =>
+                            `
+                            <span class="result-item green">
+                                ${escapeHTML(item.nama)}
+                                :
+                                ${escapeHTML(item.angka)}
+                            </span>
+                            `
+                    )
+                    .join("");
+
+        }
+
+
+        if (dekat.length === 0) {
+
+            listDekat.innerHTML = `
+                <span class="result-item">
+                    Belum ada
+                </span>
+            `;
+
+        } else {
+
+            listDekat.innerHTML =
+                dekat
+                    .map(
+                        item =>
+                            `
+                            <span class="result-item yellow">
+                                ${escapeHTML(item.nama)}
+                                :
+                                ${escapeHTML(item.angka)}
+                            </span>
+                            `
+                    )
+                    .join("");
+
+        }
+
+    }
+
+
+
+    /* =========================================================
+       DASHBOARD
+    ========================================================= */
+
+    function renderDashboard() {
+
+        const data =
+            getDataHariIni();
+
+
+        let totalNomor = 0;
+
+        let totalKeluar = 0;
+
+
+        data.forEach(person => {
+
+            totalNomor +=
+                person.nomor.length;
+
+
+            person.nomor.forEach(nomor => {
+
+                if (nomor.status === "out") {
+
+                    totalKeluar++;
+
+                }
+
+            });
+
+        });
+
+
+        document.getElementById(
+            "totalNama"
+        ).textContent =
+            data.length;
+
+
+        document.getElementById(
+            "totalNomor"
+        ).textContent =
+            totalNomor;
+
+
+        document.getElementById(
+            "totalKeluar"
+        ).textContent =
+            totalKeluar;
+
+    }
+
+
+
+    /* =========================================================
+       RIWAYAT
+    ========================================================= */
+
+    function renderRiwayat() {
+
+        const container =
+            document.getElementById(
+                "riwayat"
+            );
+
+
+        const tanggalUnik =
+            [
+                ...new Set(
+                    dataNomor.map(
+                        item =>
+                            item.tanggal
+                    )
+                )
+            ]
+            .filter(
+                tanggal =>
+                    tanggal !== tanggalHariIni
+            )
+            .sort()
+            .reverse();
+
+
+        if (tanggalUnik.length === 0) {
+
+            container.innerHTML = `
+                <div class="empty">
+                    Belum ada riwayat hari sebelumnya.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            tanggalUnik
+                .map(tanggal => {
+
+                    const data =
+                        dataNomor.filter(
+                            item =>
+                                item.tanggal ===
+                                tanggal
+                        );
+
+
+                    return `
+
+                        <div class="history-item">
+
+                            <div
+                                class="history-header"
+                                onclick="
+                                    toggleHistory(
+                                        '${tanggal}'
+                                    )
+                                "
+                            >
+
+                                <span class="history-date">
+                                    📅
+                                    ${
+                                        data[0]
+                                            ?.tanggalText ||
+                                        tanggal
+                                    }
+                                </span>
+
+                                <span class="history-arrow">
+                                    ▼
+                                </span>
+
+                            </div>
+
+
+                            <div
+                                class="history-content"
+                                id="history-${tanggal}"
+                            >
+
+                                ${data
+                                    .map(
+                                        person =>
+                                            renderHistoryPerson(
+                                                person
+                                            )
+                                    )
+                                    .join("")
+                                }
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                })
+                .join("");
+
+    }
+
+
+
+    /* =========================================================
+       RIWAYAT PER NAMA
+    ========================================================= */
+
+    function renderHistoryPerson(person) {
+
+        return `
+
+            <div class="history-person">
+
+                <div class="history-person-name">
+                    👤 ${escapeHTML(person.nama)}
+                </div>
+
+
+                <div class="history-numbers">
+
+                    ${person.nomor
+                        .map(nomor => {
+
+                            let className = "";
+
+                            if (
+                                nomor.status ===
+                                "out"
+                            ) {
+
+                                className = "out";
+
+                            }
+
+                            if (
+                                nomor.status ===
+                                "close"
+                            ) {
+
+                                className = "close";
+
+                            }
+
+                            if (
+                                nomor.status ===
+                                "no"
+                            ) {
+
+                                className = "no";
+
+                            }
+
+
+                            return `
+
+                                <span
+                                    class="
+                                        history-number
+                                        ${className}
+                                    "
+                                >
+                                    ${escapeHTML(
+                                        nomor.angka
+                                    )}
+                                </span>
+
+                            `;
+
+                        })
+                        .join("")
+                    }
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+
+    /* =========================================================
+       TOGGLE HISTORY
+    ========================================================= */
+
+    function toggleHistory(tanggal) {
+
+        const element =
+            document.getElementById(
+                `history-${tanggal}`
+            );
+
+
+        if (!element) {
+            return;
+        }
+
+
+        element.classList.toggle(
+            "active"
+        );
+
+    }
+
+
+
+    /* =========================================================
+       ESCAPE HTML
+       Untuk keamanan teks input
+    ========================================================= */
+
+    function escapeHTML(text) {
+
+        return String(text)
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+
+    /* =========================================================
+       RENDER SEMUA
+    ========================================================= */
+
+    function render() {
+
+        renderDataHariIni();
+
+        renderEvaluasi();
+
+        renderDashboard();
+
+        renderRiwayat();
+
+    }
+
+
+
+    /* =========================================================
+       JALANKAN WEBSITE
+    ========================================================= */
+
+    render();
+
+</script>
+
+</body>
+</html>
